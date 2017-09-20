@@ -1,2 +1,2 @@
-# Wikipeadia-Search-Engine
-This repo contains an informational reterival model to seach through wikipedia
+# Wikipedia-Search-Engine
+This repository contains the information-retrieval-model to search through wikipedia.
