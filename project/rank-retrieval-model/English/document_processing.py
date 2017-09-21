@@ -16,9 +16,12 @@ class document_reduction:
                 file_source = open(file_path,'r').read()
                 #print(file_source)
                 filtered_doc = self.remove_stopwords(file_source)
-                print(len(filtered_doc))
+                stemmed_doc = self.porter_stemmer(filtered_doc)
+                output_path = '/home/tex/Documents/IR/Final_Output/'+file
+                output_file = open(output_path,"w+")
+                output_file.write(str(stemmed_doc))
             except Exception as e:
-                print(file_source+" Not Opening")
+                print(str(file_path)+" Not Opening or "+str(output_path)+" Not Opening")
 
             #print(file)
 
