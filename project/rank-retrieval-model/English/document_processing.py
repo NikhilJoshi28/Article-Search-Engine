@@ -9,9 +9,9 @@ class document_reduction:
         #print(dir_list)
         file_list = os.listdir(dir_list[0])
         #print(len(file_list))
-        for file in file_list[:1]:
+        for file in file_list:
             file_path = path+'/'+file
-            print(file_path)
+            #print(file_path)
             try:
                 file_source = open(file_path,'r').read()
                 #print(file_source)
@@ -20,6 +20,9 @@ class document_reduction:
                 output_path = '/home/tex/Documents/IR/Final_Output/'+file
                 output_file = open(output_path,"w+")
                 output_file.write(str(stemmed_doc))
+                file_source.close()
+                output_file.close()
+                print("Done:- "+file_path)
             except Exception as e:
                 print(str(file_path)+" Not Opening or "+str(output_path)+" Not Opening")
 
