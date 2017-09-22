@@ -124,5 +124,5 @@ if __name__=='__main__':
 	
 	tp = TextProcessor(raw_corpus_path, processed_corpus_path)
 	# tp.preprocess()
-	# tp.remove_stop_words()
-	# tp.stem_words()
+	tp.remove_stop_words()
+	tp.stem_words()
