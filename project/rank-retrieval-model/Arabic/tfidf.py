@@ -1,12 +1,14 @@
-import os, sys
 import json
-from collections import defaultdict, OrderedDict
+import os, sys
+from math import log10, sqrt
+from collections import defaultdict
 
 class TfIdf:
-	def __init__(self, processed_corpus_path, inverted_index_path, key_ordering):
+	def __init__(self, processed_corpus_path, inverted_index_path, key_ordering, file_num):
 		self.processed_corpus_path = processed_corpus_path
 		self.inverted_index_path = inverted_index_path
 		self.key_ordering = key_ordering
+		self.file_num = file_num
 
 	def tf(self):
 		"""
@@ -61,7 +63,7 @@ class TfIdf:
 				with open (file_path, 'r') as infile:
 					freq_dict = json.load(infile)
 					for key, value in freq_dict.items():
-						doc_list[key].append(a_file)
+						doc_list[key].append(os.path.join(os.sep, folder, a_file))
 			i+=1
 			print("Size in MB: "+str(sys.getsizeof(doc_list)/(1024*1024))+". "+folder+" "+str(256-i)+" more to go")
 		
@@ -78,27 +80,52 @@ class TfIdf:
 			json.dump(words, dumpfile, ensure_ascii=False)
 		print("ordering file created!... Done.")
 		
-		# printing the values after loading on RAM
-		# order=[]
-		# with open(self.key_ordering, 'r') as infile:
-		# 	order = json.load(infile)
-		# with open(self.inverted_index_path, 'r') as infile:
-		# 	d = json.load(infile)
-		# 	for word in order:
-		# 		print(word, d[word])
+	def idf(self):
+		uniqueness={}
+		order=[]
+		with open(self.key_ordering, 'r') as infile:
+			order = json.load(infile)
+		with open(self.inverted_index_path, 'r') as infile:
+			inv_idx = json.load(infile)
+			for word in order:
+				uniqueness[word] = log10(self.file_num/len(inv_idx[word]))
+		
+		for folder in os.listdir(self.processed_corpus_path):
+			dir_path = os.path.join(os.sep, self.processed_corpus_path, folder)
+			for a_file in os.listdir(dir_path):
+				file_path = os.path.join(os.sep, dir_path, a_file)
+				weights={}
+				divide_by = 0
+				with open (file_path, 'r') as infile:
+					tfs = json.load(infile)
+					for word, term_freq in tfs.items():
+						term_freq = (1+log10(term_freq))*uniqueness[word]
+						tfs[word] = term_freq
+						divide_by += (term_freq**2)
 
+					#normalize the tfidf weights
+					divide_by = sqrt(divide_by)
+					for word, tfidf in tfs.items():
+						tfs[word] /= divide_by
+					weights = tfs
+				with open (file_path, 'w') as dumpfile:
+					json.dump(weights, dumpfile, ensure_ascii=False)
+
+	
 if __name__=='__main__':
 	# test
 	# processed_corpus_path = '/home/dennis/Documents/dev/IR/processdata'
-	# inverted_index_path = '/home/dennis/Documents/dev/IR/inv'
+	# inverted_index_path = '/home/dennis/Documents/dev/IR/inverted_index'
 	# sorted_keys = '/home/dennis/Documents/dev/IR/order'
+	# file_num = 9
 	
 	# final
 	# processed_corpus_path = '/home/dennis/Documents/dev/IR/WES/arwiki_parser/processed_corpus'
-	# inverted_index_path = '/home/dennis/Documents/dev/IR/WES/arwiki_parser/inv'
+	# inverted_index_path = '/home/dennis/Documents/dev/IR/WES/arwiki_parser/inverted_index'
 	# sorted_keys = '/home/dennis/Documents/dev/IR/WES/arwiki_parser/order'
-	
+	# file_num = 96079
 
-	ti = TfIdf(processed_corpus_path, inverted_index_path, sorted_keys)
+	ti = TfIdf(processed_corpus_path, inverted_index_path, sorted_keys, file_num)
 	# ti.tf()
 	# ti.inverted_index()
+	# ti.idf()
