@@ -1,5 +1,6 @@
 import os, errno
 from bisect import bisect_left
+from nltk.stem.isri import ISRIStemmer
 from nltk.tokenize import wordpunct_tokenize as w_tokenizer
 
 class TextProcessor:
@@ -12,7 +13,6 @@ class TextProcessor:
 		with open ("stop_words", 'r') as f:
 			sw=[]
 			sw = f.readlines();
-			f.close()
 			for word in sw:
 				self.ar_stop_words.append(word[:-1])
 				# -1 to remove the '\n' from end of word
@@ -88,9 +88,29 @@ class TextProcessor:
 
 				with open (writing_file, 'w') as outfile:
 					for word in to_write:
+						#remove single chars
 						if len(word)!=1:
 							outfile.write(word+'\n')
-			print(folder+" processed ")
+			print(folder+" unstopped ")
+
+	def stem_words(self):
+		st = ISRIStemmer()
+		for folder in os.listdir(self.processed_corpus_path):
+			dir_path = os.path.join(os.sep, self.processed_corpus_path, folder)
+			for a_file in os.listdir(dir_path):
+				file_path = os.path.join(os.sep, dir_path, a_file)
+				to_write = []
+				with open (file_path, 'r') as infile:
+					words = infile.readlines()
+					for word in words:
+						to_stem = word[:-1]
+						stemmed = st.stem(to_stem)
+						to_write.append(stemmed)
+				# print(to_write)
+				with open (file_path, 'w') as outfile:
+					for word in to_write:
+						outfile.write(word+'\n')
+			print(folder+" stemmed ")
 
 if __name__=='__main__':
 	#test with this
@@ -102,6 +122,7 @@ if __name__=='__main__':
 	# raw_corpus_path = '/home/dennis/Documents/dev/IR/WES/arwiki_parser/arabic_corpus'
 	# processed_corpus_path = '/home/dennis/Documents/dev/IR/WES/arwiki_parser/processed_corpus'
 	
-	p = TextProcessor(raw_corpus_path, processed_corpus_path)
-	# p.preprocess()
-	p.remove_stop_words()
+	tp = TextProcessor(raw_corpus_path, processed_corpus_path)
+	# tp.preprocess()
+	# tp.remove_stop_words()
+	# tp.stem_words()
