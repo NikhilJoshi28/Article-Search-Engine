@@ -8,24 +8,31 @@ class document_reduction:
         dir_list = [x[0] for x in os.walk(path)]
         #print(dir_list)
         file_list = os.listdir(dir_list[0])
+        file_count = 0
         #print(len(file_list))
         for file in file_list:
             file_path = path+'/'+file
             #print(file_path)
             try:
-                file_source = open(file_path,'r').read()
+                s1 = open(file_path,'r')
+                file_source = s1.read()
+
                 #print(file_source)
                 filtered_doc = self.remove_stopwords(file_source)
                 stemmed_doc = self.porter_stemmer(filtered_doc)
                 output_path = '/home/tex/Documents/IR/Final_Output/'+file
                 output_file = open(output_path,"w+")
-                output_file.write(str(stemmed_doc))
-                file_source.close()
+                doc_text = ''
+                for text in stemmed_doc:
+                    doc_text = doc_text + ' ' +text
+                output_file.write(doc_text)
+                file_count+=1
+                print("@@Done:- " + file_path)
                 output_file.close()
-                print("Done:- "+file_path)
+                s1.close()
             except Exception as e:
-                print(str(file_path)+" Not Opening or "+str(output_path)+" Not Opening")
-
+                #print(str(file_path)+" Not Opening or "+str(output_path)+" Not Opening")
+                print(1)
             #print(file)
 
     def remove_stopwords(self,doc):
