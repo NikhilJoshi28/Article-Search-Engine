@@ -23,6 +23,7 @@ class TextProcessor:
 		Removes characters of languages other than
 		Arabic which got in files during scraping
 		"""
+		# traversing through all the files in the directory
 		for folder in os.listdir(self.raw_corpus_path):
 			dir_path = os.path.join(os.sep, self.raw_corpus_path, folder)
 			for a_file in os.listdir(dir_path):
@@ -44,13 +45,17 @@ class TextProcessor:
 
 	def remove_stop_words(self):
 		"""
-		Removes the arabic stop words from
-		the files
+		Removes the arabic stop words from the
+		files
+		stop-words are loaded from an input file
 		"""
 		def not_stop_word(word, lo=0):
 			"""
 			Searches for the word in ar_stop_words.
 			Uses binary search to reduce search time.
+			return value:
+				 -1 if word is not a stop-word
+				 else its position in the stop-word list 
 			"""
 			hi = len(self.ar_stop_words)
 			pos = bisect_left(self.ar_stop_words, word, lo, hi)
@@ -94,6 +99,11 @@ class TextProcessor:
 			print(folder+" unstopped ")
 
 	def stem_words(self):
+		"""
+		Stem all the words in each file	using
+		ISRI Arabic stemmer based on algorithm:
+			Arabic Stemming without a root dictionary.
+		"""
 		st = ISRIStemmer()
 		for folder in os.listdir(self.processed_corpus_path):
 			dir_path = os.path.join(os.sep, self.processed_corpus_path, folder)
@@ -113,9 +123,9 @@ class TextProcessor:
 			print(folder+" stemmed ")
 
 if __name__=='__main__':
-	#test with this
-	raw_corpus_path = '/home/dennis/Documents/dev/IR/testdata'
-	processed_corpus_path = '/home/dennis/Documents/dev/IR/processdata'
+	# test with this
+	# raw_corpus_path = '/home/dennis/Documents/dev/IR/testdata'
+	# processed_corpus_path = '/home/dennis/Documents/dev/IR/processdata'
 	
 	# run ONLY if checked
 	# assuming these paths exist
@@ -124,5 +134,5 @@ if __name__=='__main__':
 	
 	tp = TextProcessor(raw_corpus_path, processed_corpus_path)
 	# tp.preprocess()
-	tp.remove_stop_words()
-	tp.stem_words()
+	# tp.remove_stop_words()
+	# tp.stem_words()
