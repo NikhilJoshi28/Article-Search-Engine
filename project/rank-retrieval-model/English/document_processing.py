@@ -2,43 +2,39 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import PorterStemmer
 import os
+import json
 
 class document_reduction:
     def decReduction(self,path):
         dir_list = [x[0] for x in os.walk(path)]
-        #print(dir_list)
         file_list = os.listdir(dir_list[0])
         file_count = 0
-        #print(len(file_list))
         for file in file_list:
             file_path = path+'/'+file
-            #print(file_path)
             try:
                 s1 = open(file_path,'r')
                 file_source = s1.read()
-
-                #print(file_source)
+                term_freq = {}
                 filtered_doc = self.remove_stopwords(file_source)
                 stemmed_doc = self.porter_stemmer(filtered_doc)
-                output_path = '/home/tex/Documents/IR/Final_Output/'+file
-                output_file = open(output_path,"w+")
-                doc_text = ''
-                for text in stemmed_doc:
-                    doc_text = doc_text + ' ' +text
-                output_file.write(doc_text)
-                file_count+=1
-                print("@@Done:- " + file_path)
-                output_file.close()
+                for word in stemmed_doc:
+                    term_freq[word]=0
+                for word in stemmed_doc:
+                    term_freq[word]+=1
+
+                output_path = '/home/tex/Documents/IR/Final_Output2/'+file
+                with open(output_path,'w',encoding='utf8') as output_file:
+                    json.dump(term_freq,output_file,ensure_ascii=False)
+                file_count=file_count+1
+                print(" "+str(file_count)+" @@Done:- " + file_path)
                 s1.close()
             except Exception as e:
-                #print(str(file_path)+" Not Opening or "+str(output_path)+" Not Opening")
-                print(1)
-            #print(file)
+                print(e)
 
     def remove_stopwords(self,doc):
 
         t_words = word_tokenize(doc)
-        punctuations =['!', '"', '#', '$', '%', '&', "'", '(', ')', '*',"''",'``', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@','[', '\\', ']', '^', '_', '`', '{', '|', '}', '~']
+        punctuations =['!', '"', '#', '$', '%', '&', "'", '(', ')', '*',"''",'``', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@','[', '\\','–',']', '^', '_', '`', '{', '|', '}', '~',"'s"]
         words = []
         #removing punctuations
         for w in t_words:
