@@ -10,12 +10,9 @@ class TextProcessor:
 
 		# initializing stop words and punctuations
 		self.ar_stop_words=[]
-		with open ("stop_words", 'r') as f:
-			sw=[]
-			sw = f.readlines();
-			for word in sw:
-				self.ar_stop_words.append(word[:-1])
-				# -1 to remove the '\n' from end of word
+		with open ("stop_words", 'r') as infile:
+			self.ar_stop_words=[word[:-1] for word in infile.readlines()]
+
 		self.ar_stop_words.sort()
 		
 	def preprocess(self):
@@ -51,7 +48,7 @@ class TextProcessor:
 		"""
 		def not_stop_word(word, lo=0):
 			"""
-			Searches for the word in ar_stop_words.
+			Searches for the word in self.ar_stop_words.
 			Uses binary search to reduce search time.
 			return value:
 				 -1 if word is not a stop-word
