@@ -31,7 +31,20 @@ def search2():
 
 @app.route('/Wild_Card/',methods=['GET','POST'])
 def WildCard():
+    try:
+        if request.method=="POST":
+            arabic_query = request.form['query1']
+            print(arabic_query)
+            return render_template("WCsearchResult.html")
+    except Exception as e:
+        print(e)
+        return render_template("Wild_Card.html")
+
     return render_template("Wild_Card.html")
+
+@app.route('/WCsearchResult/',methods=['GET','POST'])
+def wc():
+    return render_template("WCsearchResult.html")
 
 @app.route('/Compare_Article.html/',methods=['GET','POST'])
 def CompareArticle():
