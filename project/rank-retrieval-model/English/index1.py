@@ -17,7 +17,7 @@ indx = {}
 
 idf = {}
 
-for filename in files:
+for filename in files[:1000]:
 	with open(addr+filename) as f:
 		text = f.read()
 		words = []

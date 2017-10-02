@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Wild Card Query</title>
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Material Design Bootstrap -->
+    <link href="{{ url_for('static', filename='css/mdb.min.css') }}" rel="stylesheet">
+
+</head>
+<body>
+
+    <h1 class="h1-responsive flex-item font-bold">Article Search Engine</h1>
+
+                            <li>
+                                <p class="flex-item">Search Articles in English</p>
+                            </li>
+
+    <form action="/search1/" method="POST" style="margin-top: 15em;">
+        <div style="margin-right: 40em">
+            <input type="text" name="query1" id="query1" class="form-control" placeholder="Search" value="{{request.form.query1}}" style="margin-left: 20em">
+        </div>
+
+        <li>
+            <!--<input class="btn btn-primary" name="bnt-se" id="bnt-se" type="submit" placeholder="Start Search" value="Start Search">-->
+            <button class="btn btn-primary" style="margin-left: 44em;">Start Search</button>
+        </li>
+    </form>
+
+    <!-- JQuery -->
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.1.1.min.js') }}"></script>
+
+    <!-- Bootstrap dropdown -->
+    <script type="text/javascript" src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="{{ url_for('static', filename='js/mdb.min.js') }}"></script>
+
+    <script>
+    new WOW().init();
+    </script>
+</body>
+</html>

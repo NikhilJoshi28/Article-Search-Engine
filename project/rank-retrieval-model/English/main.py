@@ -1,10 +1,10 @@
-from query_processing import query_reduction as qr
-from document_processing import document_reduction as dr
-from indexing import indexing as indx
+#from query_processing import query_reduction as qr
+#from document_processing import document_reduction as dr
+#from indexing import indexing as indx
 
 import json
 
-
+"""
 runQuery = qr()
 filter_query = runQuery.reducedQuery_stopwords()
 #print(filter_query)
@@ -17,7 +17,7 @@ path = '/home/tex/Downloads/wikiextractor/Output1'
 runDoc.decReduction(path)
 
 
-"""
+
 runIndexing = indx()
 runIndexing.file_indexing()
 """
@@ -25,8 +25,8 @@ runIndexing.file_indexing()
 if __name__=='__main__':
 	input_query = raw_input()
 	query = input_query.split()
-	with open('inverted_index.txt') as json_data:
-		inverted_idx = json.load(json_data)
+	with open('/home/tex/Documents/IR/Inverted_Index/inverted_indx.txt') as json_data:
+		inverted_index = json.load(json_data)
 		json_data.close()
 
 	docs = []
@@ -55,4 +55,6 @@ if __name__=='__main__':
 					
 			for j in range(0,len(ans)):
 				docs.append(ans[j])
+				
+	print(docs)
 

@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-    <title>Wikipedia Search Engine</title>
+    <title>Article Search Engine</title>
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="css/font-awesome.min.css">
@@ -85,6 +85,7 @@
         .navbar .btn-group .dropdown-menu a:active {
             color: #fff !important;
         }
+
     </style>
 
 </head>
@@ -129,19 +130,26 @@
                 <!-- Caption -->
                 <div class="full-bg-img flex-center white-text">
                     <ul class="animated fadeInUp col-md-12">
-                        <li>
+
                             <h1 class="h1-responsive flex-item font-bold">Article Search Engine</h1>
 
                             <li>
                                 <p class="flex-item">Search Articles in English</p>
                             </li>
-                            <div style="margin-right: 40em">
-                                <input type="text" class="form-control" placeholder="Search"style="margin-left: 20em">
-                            </div>
-                            <li>
-                                <a target="_blank" href="/search_english.html" class="btn btn-secondary btn-lg flex-item" rel="nofollow">Start Search</a>
-                            </li>
+                            <form action="/search1/" method="POST">
+                                    <div style="margin-right: 40em">
+                                        <input type="text" name="query1" id="query1" class="form-control" placeholder="Search" value="{{request.form.query1}}" style="margin-left: 20em">
+                                    </div>
 
+                                <li>
+                                    <input class="btn btn-primary" name="bnt-se" id="bnt-se" type="submit" placeholder="Start Search" value="Start Search">
+                                    <!--<a target="_blank" href="/search_english.html" class="btn btn-secondary btn-lg flex-item" rel="nofollow">Start Search</a>-->
+                                </li>
+                                <!--<li>
+                                    <input class="btn btn-primary" id="bnt-wc" type="submit" value="Wildcard Search">
+                                    <!--<a target="_blank" href="/search_english.html" class="btn btn-secondary btn-lg flex-item" rel="nofollow">Start Search</a>
+                                </li>-->
+                            </form>
                     </ul>
                 </div>
                 <!-- /.Caption -->
@@ -150,7 +158,7 @@
             <!-- /.First slide -->
 
             <!-- Second slide -->
-            <div class="carousel-item view hm-black-light" style="background-image: url('https://mdbootstrap.com/img/Photos/Others/img%20(40).jpg'); background-repeat: no-repeat; background-size: cover;">
+            <div class="carousel-item view hm-black-light" style="background-image: url('https://mdbootstrap.com/img/Photos/Others/img (40).jpg'); background-repeat: no-repeat; background-size: cover;">
 
                 <!-- Caption -->
                 <div class="full-bg-img flex-center white-text">
@@ -161,12 +169,15 @@
                         <li>
                             <p class="my-4">ابحث عن أهم المقالات باللغة العربية</p>
                         </li>
-                        <div style="margin-right: 40em">
-                                <input type="text" class="form-control" placeholder="بحث"style="margin-left: 20em">
-                            </div>
-                        <li>
-                            <a target="_blank" href="/search_arabic.html" class="btn btn-primary btn-lg" rel="nofollow">بدء البحث</a>
-                        </li>
+                        <form action="/search2/" method="POST">
+                            <div style="margin-right: 40em">
+                                    <input type="text" name="query2" id="query2" class="form-control" value="{{request.form.query2}}" placeholder="بحث"style="margin-left: 20em">
+                                </div>
+                            <li>
+                                <input class="btn btn-primary btn-lg" type="submit" value="بدء البحث">
+                                <!--<a target="_blank" type="submit" class="btn btn-primary btn-lg" rel="nofollow">بدء البحث</a>-->
+                            </li>
+                        </form>
                     </ul>
                 </div>
                 <!-- /.Caption -->
@@ -203,12 +214,20 @@
                 <div >
                     <h5 class="title mb-3"><strong>About Project design</strong></h5>
                     <p>This given search engine uses basic concept of Informational Retrieval</p>
-                    <p>By<br> Nikhil Joshi (2015A7PS0179H)<br>     Bhavesh Gawri (2015A7PS0116H) <br>     Nikhil Madaan (2015A3PS0283H)</p>
+                    <p>By<br> Nikhil Madaan (2015A3PS0283H)<br>     Bhavesh Gawri (2015A7PS0116H) <br>     Nikhil Joshi (2015A7PS0179H)</p>
                 </div>
-                <div style="margin-left: 20em; margin-top: 3em;">
-                <ui>
+                <div style="margin-left: 5em; margin-top: 3em;">
+                    <ui>
+                        <a target="_blank" href="/Wild_Card/" class="btn btn-secondary btn-lg flex-item" rel="nofollow">Wild Card Search</a>
+                    </ui>
+
+                    <ui>
+                      <a target="_blank" href="/Compare_Article.html/" class="btn btn-secondary btn-lg flex-item" rel="nofollow">Compare Articles</a>
+                    </ui>
+
+                    <ui>
                       <a target="_blank" href="/search_english.html" class="btn btn-secondary btn-lg flex-item" rel="nofollow">Documentation</a>
-                </ui>
+                    </ui>
                 </div>
                 <!--/.First column-->
             </div>

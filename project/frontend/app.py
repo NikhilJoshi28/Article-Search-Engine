@@ -6,5 +6,36 @@ app = Flask(__name__, static_folder='templates')
 def index():
     return render_template("index.html")
 
+@app.route('/search1/',methods=['GET','POST'])
+def search1():
+    try:
+        if request.method == "POST":
+            english_query = request.form['query1']
+            print(english_query)
+            #print("asd")
+            return render_template("english_search.html")
+    except Exception as e:
+        print(e)
+        return render_template("index.html")
+
+@app.route('/search2/',methods=['GET','POST'])
+def search2():
+    try:
+        if request.method=="POST":
+            arabic_query = request.form['query2']
+            print(arabic_query)
+            return render_template("arabic_search.html")
+    except Exception as e:
+        print(e)
+        return render_template("index.html")
+
+@app.route('/Wild_Card/',methods=['GET','POST'])
+def WildCard():
+    return render_template("Wild_Card.html")
+
+@app.route('/Compare_Article.html/',methods=['GET','POST'])
+def CompareArticle():
+    return render_template("Compare_Article.html")
+
 if __name__=='__main__':
     app.run(host='0.0.0.0', port=2809, debug=True, threaded=True)
