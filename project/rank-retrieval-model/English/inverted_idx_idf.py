@@ -55,4 +55,4 @@ with open (file_path, 'w') as invert_idx:
 	json.dump(indx, invert_idx, ensure_ascii=False)
 
 with open (file_path, 'w') as idf_:
-	json.dump(idf_, idf, ensure_ascii=False)
+	json.dump(idf, idf_, ensure_ascii=False)
