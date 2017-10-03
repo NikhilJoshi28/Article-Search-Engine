@@ -20,17 +20,17 @@ Below is the list of implemented functionalities in this rank retrival model. Th
 
  * [python-nltk](http://www.nltk.org/) - NLTK is a leading platform for building Python programs to work with human language data. It provides easy-to-use interfaces
  
-    *Install NLTK:
+    * Install NLTK:
     
     ```$ sudo pip install -U nltk```
    
    
-   *Install Numpy: 
+   * Install Numpy: 
     
     ```$ sudo pip install -U numpy```
    
    
-   *Test installation: type 
+   * Test installation: type 
     
     ```
    $ python3 
