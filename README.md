@@ -7,7 +7,7 @@ Below is the list of implemented functionalities in this rank retrival model. Th
 
   1. Searching top 10 articles based on a given query.
   2. Comparing cosine-similarity between 2 articles present in the corpus.
-  3. Implementation of Wilcard Query for word-correction.
+  3. Implementation of Wilcard Queries.
   4. Term Auto-completion for search suggestions using tries.
 
 
@@ -30,7 +30,7 @@ Below is the list of implemented functionalities in this rank retrival model. Th
     ```$ sudo pip install -U numpy```
    
    
-   * Test installation: type 
+   * Test installation:
     
     ```
    $ python3 
