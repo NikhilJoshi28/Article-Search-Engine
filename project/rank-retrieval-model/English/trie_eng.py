@@ -32,7 +32,7 @@ class Trie:
 		curr.isEnd = True
 
 	def search(self,key):
-		"""Looks for a particular element in trie i.e. returns True if Element found else return False"""
+		"""Looks for a particular element in trie i.e. returns True if that Element is found else return False"""
 		curr = self.root
 		l = len(key)
 		for i in range(l):
