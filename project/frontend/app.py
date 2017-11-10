@@ -12,6 +12,10 @@ app = Flask(__name__, static_folder='templates')
 def index():
     return render_template("index.html")
 
+@app.route('/index/',methods=['GET','POST'])
+def ind():
+    return render_template("index.html")
+
 @app.route('/search1/',methods=['GET','POST'])
 def search1():
     try:
@@ -41,7 +45,7 @@ def search2():
             qp = QueryProcessor(arabic_query, model, processed_corpus_path)
             ans = qp.search()
             print(ans)
-            return render_template("arabic_search.html")
+            return render_template("arabic_search.html",Doc_Name=ans)
     except Exception as e:
         print(e)
         return render_template("index.html")
