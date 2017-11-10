@@ -1,8 +1,10 @@
 from flask import Flask, render_template, request, url_for, redirect, session, app
 import sys
-sys.path.insert(0,'/home/tex/Documents/IR/Wikipedia-Search-Engine/project/a/English/')
-from query_processing import query_reduction
+sys.path.insert(0,'/home/tex/Documents/IR/Wikipedia-Search-Engine/project/rankretrievalmodel/English/')
 
+from query_processing import query_reduction
+sys.path.insert(1,'/home/tex/Documents/IR/Wikipedia-Search-Engine/project/rankretrievalmodel/Arabic/')
+from query_processor import loadModel,QueryProcessor
 
 app = Flask(__name__, static_folder='templates')
 
@@ -19,6 +21,8 @@ def search1():
             runQuery = query_reduction()
             filter_query = runQuery.reducedQuery_stopwords(english_query)
             print(filter_query)
+            stemmed_query = (runQuery.reducedQuery_stemming(filter_query))
+            print(stemmed_query)
             #print("asd")
             return render_template("english_search.html")
     except Exception as e:
@@ -31,6 +35,12 @@ def search2():
         if request.method=="POST":
             arabic_query = request.form['query2']
             print(arabic_query)
+            processed_corpus_path = '/home/tex/Documents/IR/proc_data'
+            inverted_index_path = '/home/tex/Documents/IR/inverted_index'
+            model = loadModel(inverted_index_path)
+            qp = QueryProcessor(arabic_query, model, processed_corpus_path)
+            ans = qp.search()
+            print(ans)
             return render_template("arabic_search.html")
     except Exception as e:
         print(e)
@@ -41,6 +51,9 @@ def WildCard():
     try:
         if request.method=="POST":
             arabic_query = request.form['query1']
+
+            output_list = []
+            print(output_list)
             print(arabic_query)
             return render_template("WCsearchResult.html")
     except Exception as e:
