@@ -2,16 +2,13 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import PorterStemmer
 
-class query_reduction():
+class query_reduction:
 
     """
         this function is used to remove stop-words , punctuation and case folding in query
         firstly query is tokenized, then punctuations are removed and further stop words are removed alonge with case folding 
     """
-    """def __init__(self, query):
-        self.query = query
-    """
-    def reducedQuery_stopwords(self,query):
+    def reducedQuery_stopwords(self, query):
         #query = "rank of the retrieval this is and model 1234 in information to be and not to be retrieval for searching of and"
         t_words = word_tokenize(query)
         punctuations = ['!', '"', '#', '$', '%', '&', "'", '(', ')', '*', "''", '``', '+', ',', '-', '.', '/', ':', ';',
@@ -43,10 +40,10 @@ class query_reduction():
     """
         this function implements Porter stemming which reduces each words to it reduced form 
     """
-    def reducedQuery_stemming(self, query1):
+    def reducedQuery_stemming(self,query):
         ps = PorterStemmer()
         Stemmed_query = []
-        for w in query1:
+        for w in query:
             Stemmed_query.append(ps.stem(w))
 
         return Stemmed_query

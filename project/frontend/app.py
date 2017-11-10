@@ -1,4 +1,8 @@
 from flask import Flask, render_template, request, url_for, redirect, session, app
+import sys
+sys.path.insert(0,'/home/tex/Documents/IR/Wikipedia-Search-Engine/project/a/English/')
+from query_processing import query_reduction
+
 
 app = Flask(__name__, static_folder='templates')
 
@@ -12,6 +16,9 @@ def search1():
         if request.method == "POST":
             english_query = request.form['query1']
             print(english_query)
+            runQuery = query_reduction()
+            filter_query = runQuery.reducedQuery_stopwords(english_query)
+            print(filter_query)
             #print("asd")
             return render_template("english_search.html")
     except Exception as e:
