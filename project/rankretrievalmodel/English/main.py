@@ -5,7 +5,7 @@
 import json
 import math
 
-runQuery = qr()
+"""runQuery = qr()
 filter_query = runQuery.reducedQuery_stopwords()
 #print(filter_query)
 #print(runQuery.reducedQuery_stemming(filter_query))
@@ -20,18 +20,19 @@ runDoc.decReduction(path)
 
 runIndexing = indx()
 runIndexing.file_indexing()
-
+"""
 
 class QueryProcessor:
 
 	# load the inverted index and inverse document frequency file
 	def __init__(self,addr_invert_idx,addr_idf):
-		self.scores = {}
+		self.score = {}
 		self.q_score = {}
 		with open(addr_invert_idx) as json_data:
 			self.inver_idx = json.load(json_data)
 			json_data.close()
-
+		print(self.inver_idx['spain'])
+		print(self.inver_idx['england'])
 		with open(addr_idf) as json_data:
 			self.idf = json.load(json_data)
 			json_data.close()
@@ -48,72 +49,65 @@ class QueryProcessor:
 				for j in range(i,len(self.query)):
 					if(self.query[j]==self.query[i]):
 						ct=ct+1
-				self.q_score[query[i]] = ct
+				self.q_score[self.query[i]] = ct
 				self.mod = self.mod + ct*ct
 
 		for term in self.q_score:
-			self.q_score[term] = (self.q_score)/math.sqrt(self.mod)
+			self.q_score[term] = (self.q_score[term])/(math.sqrt(self.mod))
+
+		print(self.q_score)
 
 	"""folder_addr containing the tf of individual docs. Generate the dict containing the doc-Id of all the docs containing any of the terms in the query.
 	Using the vector representing the query and tf-idf value of the docs determine the proximity between the vector representing the query and vector representing
 	the docs(cosine similarity)"""
-	def score_docs(self,folder_addr):
+
+	def score_docs1(self,folder_addr):
+		"""determines all the documents containing any of the terms present 
+		   in the query and initializes their score to zero which is updated 
+		   						in each step"""
 		for term in self.q_score.keys():
 			for j in range(0,len(self.inver_idx[term])):
-				if self.inver_idx[term][j] in self.scores.keys():
+				if self.inver_idx[term][j] in self.score.keys():
 					continue
 				else:
-					self.scores[self.inver_idx[term][j]] = 0
+					self.score[self.inver_idx[term][j]] = 0
+		#print(self.score)
 
-		for doc in self.scores.keys():
-			for term in self.query:
-				with open(folder_addr+'/'+doc) as json_data:
+		#print(self.score.keys())
+		for doc in self.score.keys():
+			mod = 0
+			for term in self.q_score.keys():
+				"""obtain the documents term frequency list"""
+				if doc[0]==',':
+					path = folder_addr+'/'+doc[1:][:-1]
+				else:
+					path = folder_addr+'/'+doc[:-1]
+
+				with open(path) as json_data:
 					self.doc_indx = json.load(json_data)
 					json_data.close()
-				self.score[doc] = self.score[doc] + self.q_score[term]*(math.log(1+self.doc_indx[term])*self.idf[term])
+				try:
+					self.score[doc] += ((self.q_score[term]) * (math.log(1 + self.doc_indx[term])) * (self.idf[term]))
+					mod = mod + (math.log(1 + self.doc_indx[term])) * (self.idf[term]) * (math.log(1 + self.doc_indx[term])) * (self.idf[term])
+				except:
+					pass
+				#print(term, doc, self.score[doc], self.q_score[term], self.doc_indx[term])#self.idf[term])
+				"""update the score of the particular document corresponding to the particular term of the query"""
+				#self.score[doc] += ((self.q_score[term])*(math.log(1+self.doc_indx[term]))*(self.idf[term]))
+				#mod = mod + (math.log(1+self.doc_indx[term]))*(self.idf[term])*(math.log(1+self.doc_indx[term]))*(self.idf[term])
 
-	"""returns the dictionary containing all the docs containing any of the terms sorted in increasing order of closeness to the query"""
+			self.score[doc] = (self.score[doc])/math.sqrt(mod)
 	def return_docs(self):
 		sorted(self.score.values())
 		return self.score
 
 if __name__=='__main__':
-	input_query = raw_input()
-	query = input_query.split()
-	with open('/home/tex/Documents/IR/Inverted_Index/inverted_indx.txt') as json_data:
-		inverted_index = json.load(json_data)
-		json_data.close()
-
-	docs = []
-	siz = len(query)
-
-	idx = 0
-
-	for i in range(1,siz):
-		if len(inverted_index[query[i]])<len(inverted_index[query[idx]]):
-			idx = i
-
-	for i in range(0,len(inverted_index[query[idx]])):
-		docs.append(inverted_index[query[idx]][i])
-
-	# returns the list of docs corresponding to give query assuming there is no need for any spell correction	
-	# docs is the required list of documents
-	for i in range(0,siz):
-		if i!=idx:
-			ans = []
-			for j in range(0,len(docs)):
-				for k in range(0,len(inverted_index[query[i]])):
-					if docs[j]==inverted_index[query[i]][k]:
-						ans.append(docs[j])
-
-			docs[:] = []
-					
-			for j in range(0,len(ans)):
-				docs.append(ans[j])
-				
-	print(docs)
-
-	process = QueryProcessor()
+	input_query = input()
+	inver_index = '/home/tex/Documents/IR/Inverted_Index/inverted_indx.txt'
+	add_idf = '/home/tex/Documents/IR/Inverted_Index/idf.txt'
+	folder_addr ='/home/tex/Documents/IR/Final_Output1000'
+	process = QueryProcessor(inver_index,add_idf)
 	process.score_query(input_query)
-	process.score_docs()
+	process.score_docs1(folder_addr)
 	docs = process.return_docs()
+	print(docs)
