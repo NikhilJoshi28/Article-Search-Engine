@@ -31,8 +31,13 @@ class QueryProcessor:
 		with open(addr_invert_idx) as json_data:
 			self.inver_idx = json.load(json_data)
 			json_data.close()
+<<<<<<< HEAD
 		#print(self.inver_idx['spain'])
 		#print(self.inver_idx['england'])
+=======
+		print(self.inver_idx['spain'])
+		print(self.inver_idx['england'])
+>>>>>>> 9ae7f92814873f8ef7ac07762ed9d3f20da8cfd6
 		with open(addr_idf) as json_data:
 			self.idf = json.load(json_data)
 			json_data.close()
@@ -97,7 +102,10 @@ class QueryProcessor:
 				#mod = mod + (math.log(1+self.doc_indx[term]))*(self.idf[term])*(math.log(1+self.doc_indx[term]))*(self.idf[term])
 
 			self.score[doc] = (self.score[doc])/math.sqrt(mod)
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9ae7f92814873f8ef7ac07762ed9d3f20da8cfd6
 	def return_docs(self):
 		sorted(self.score.values())
 		return self.score
