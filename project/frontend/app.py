@@ -1,10 +1,11 @@
 from flask import Flask, render_template, request, url_for, redirect, session, app
 import sys
 sys.path.insert(0,'/home/tex/Documents/IR/Wikipedia-Search-Engine/project/rankretrievalmodel/English/')
-
 from query_processing import query_reduction
+from main import QueryProcessor as qp
 sys.path.insert(1,'/home/tex/Documents/IR/Wikipedia-Search-Engine/project/rankretrievalmodel/Arabic/')
 from query_processor import loadModel,QueryProcessor
+
 
 app = Flask(__name__, static_folder='templates')
 
@@ -26,9 +27,29 @@ def search1():
             filter_query = runQuery.reducedQuery_stopwords(english_query)
             print(filter_query)
             stemmed_query = (runQuery.reducedQuery_stemming(filter_query))
-            print(stemmed_query)
+            str_stemm = ''
+            for word in (stemmed_query):
+                str_stemm =str_stemm + word +' '
+            #print(str_stemm)
+            inver_index = '/home/tex/Documents/IR/Inverted_Index/inverted_indx.txt'
+            add_idf = '/home/tex/Documents/IR/Inverted_Index/idf.txt'
+            folder_addr = '/home/tex/Documents/IR/Final_Output1000'
+            process = qp(inver_index, add_idf)
+            process.score_query(str_stemm[:-1])
+            process.score_docs1(folder_addr)
+            docs = process.return_docs()
+            top_10 = []
+            cnt=0
+            print(docs)
+            for doc in docs.keys():
+                top_10.append(doc)
+                cnt=cnt+1
+                if cnt>=10:
+                    break
+
+            print((top_10))
             #print("asd")
-            return render_template("english_search.html")
+            return render_template("english_search.html",Doc_Name = top_10)
     except Exception as e:
         print(e)
         return render_template("index.html")

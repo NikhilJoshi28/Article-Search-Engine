@@ -2,7 +2,6 @@ import json
 import os
 from collections import defaultdict
 from math import log10, sqrt
-
 from nltk.stem.isri import ISRIStemmer
 from nltk.tokenize import wordpunct_tokenize as w_tokenizer
 
