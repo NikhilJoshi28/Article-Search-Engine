@@ -55,9 +55,8 @@ def WildCard():
     try:
         if request.method=="POST":
             arabic_query = request.form['query1']
-
             output_list = []
-            print(output_list)
+            #print(output_list)
             print(arabic_query)
             return render_template("WCsearchResult.html")
     except Exception as e:
