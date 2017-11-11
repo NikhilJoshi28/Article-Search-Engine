@@ -3,13 +3,8 @@
 #from indexing import indexing as indx
 
 import json
-<<<<<<< HEAD
-
-"""
-=======
 import math
 
->>>>>>> 70cac7a9658bad3c2866e50dc7c7caff85ae0325
 runQuery = qr()
 filter_query = runQuery.reducedQuery_stopwords()
 #print(filter_query)
@@ -25,7 +20,7 @@ runDoc.decReduction(path)
 
 runIndexing = indx()
 runIndexing.file_indexing()
-"""
+
 
 class QueryProcessor:
 
@@ -46,13 +41,13 @@ class QueryProcessor:
 		self.query = input_query.split(' ')
 		self.mod = 0
 		for i in range(0,len(self.query)):
-			if query in self.q_score.keys():
+			if self.query[i] in self.q_score.keys():
 				continue
 			else:
 				ct = 0
 				for j in range(i,len(self.query)):
 					if(self.query[j]==self.query[i]):
-						ct++
+						ct=ct+1
 				self.q_score[query[i]] = ct
 				self.mod = self.mod + ct*ct
 
@@ -63,7 +58,7 @@ class QueryProcessor:
 	Using the vector representing the query and tf-idf value of the docs determine the proximity between the vector representing the query and vector representing
 	the docs(cosine similarity)"""
 	def score_docs(self,folder_addr):
-		for term in self.q_score:
+		for term in self.q_score.keys():
 			for j in range(0,len(self.inver_idx[term])):
 				if self.inver_idx[term][j] in self.scores.keys():
 					continue
@@ -75,7 +70,7 @@ class QueryProcessor:
 				with open(folder_addr+'/'+doc) as json_data:
 					self.doc_indx = json.load(json_data)
 					json_data.close()
-				self.score[doc] = self.score[doc] + self.q_score(term)*(math.log(1+self.doc_indx[term])*self.idf[term])
+				self.score[doc] = self.score[doc] + self.q_score[term]*(math.log(1+self.doc_indx[term])*self.idf[term])
 
 	"""returns the dictionary containing all the docs containing any of the terms sorted in increasing order of closeness to the query"""
 	def return_docs(self):
@@ -84,7 +79,6 @@ class QueryProcessor:
 
 if __name__=='__main__':
 	input_query = raw_input()
-<<<<<<< HEAD
 	query = input_query.split()
 	with open('/home/tex/Documents/IR/Inverted_Index/inverted_indx.txt') as json_data:
 		inverted_index = json.load(json_data)
@@ -119,9 +113,7 @@ if __name__=='__main__':
 				
 	print(docs)
 
-=======
 	process = QueryProcessor()
 	process.score_query(input_query)
 	process.score_docs()
 	docs = process.return_docs()
->>>>>>> 70cac7a9658bad3c2866e50dc7c7caff85ae0325
