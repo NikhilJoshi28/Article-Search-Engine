@@ -21,7 +21,7 @@ class QueryProcessor:
 		self.term_weights={}
 		self.stemmer = ISRIStemmer()
 		self.threshold = 0.005
-		self.top_res = 3
+		self.top_res = 5
 		self.ar_stop_words=[]
 		with open ("/home/tex/Documents/IR/Wikipedia-Search-Engine/project/rankretrievalmodel/Arabic/stop_words", 'r') as infile:
 			self.ar_stop_words=[word[:-1] for word in infile.readlines()]
