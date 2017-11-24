@@ -4,6 +4,7 @@
 
 import json
 import math
+import operator
 
 """runQuery = qr()
 filter_query = runQuery.reducedQuery_stopwords()
@@ -99,7 +100,7 @@ class QueryProcessor:
 	def return_docs(self):
 
 		"""sorting the docs in descending orderbased on their rank values"""
-		self.score.values().sort(reverse=True)
+		self.score = sorted(self.score.items(),key=operator.itemgetter(0),reverse=True)
 		return self.score
 
 if __name__=='__main__':
