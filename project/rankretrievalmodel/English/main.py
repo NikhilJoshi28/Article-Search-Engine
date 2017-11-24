@@ -97,7 +97,9 @@ class QueryProcessor:
 			self.score[doc] = (self.score[doc])/math.sqrt(mod)
 
 	def return_docs(self):
-		sorted(self.score.values())
+
+		"""sorting the docs in descending orderbased on their rank values"""
+		self.score.values().sort(reverse=True)
 		return self.score
 
 if __name__=='__main__':
