@@ -100,7 +100,7 @@ class QueryProcessor:
 	def return_docs(self):
 
 		"""sorting the docs in descending orderbased on their rank values"""
-		self.score = sorted(self.score.items(),key=operator.itemgetter(0),reverse=True)
+		self.score = sorted(self.score.items(),key=operator.itemgetter(1),reverse=True)
 		return self.score
 
 if __name__=='__main__':
