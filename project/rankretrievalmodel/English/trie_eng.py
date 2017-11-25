@@ -1,4 +1,6 @@
 import pickle
+import json
+import os
 
 suggestions = []
 
@@ -19,6 +21,8 @@ class Node:
 
 
 	def all_words(self,prefix):
+
+		"""fetches all the terms starting with given prefix and appends them into a list named suggestions"""
 		if self.isEnd==True:
 			suggestions.append(prefix)
 
@@ -101,19 +105,38 @@ def load_object(filename):
 
 if __name__=='__main__':
 	t = Trie()
-	keys = ["the","a","there","any","answer","ans9w"]
+	addr_tf = '/home/tex/Documents/IR/Tries/'
+	files = os.listdir('/home/tex/Documents/IR/Tries/')
+	keys = []
+	for filename in files:
+		with open(addr_tf+filename) as json_data:
+			idf = json.load(json_data)
+			for key in idf.keys():
+				keys.append(str(key))
+
+			json_data.close()
+
+	print(len(keys))
+	#keys = ["the","a","there","any","answer","ans9w","ffhhhgv","ffuffy",'peerreview', 'system', 'rest', 'guid','aquina','emot', 'length', 'controversi', 'cultur', 'us', 'cri', 'kaplan', 'furnitur', 'compliment', 'magazin', 'jewish', 'plan''around', 'desper', 'know', 'employ', 'recast', 'garri', 'privat', 'open', 'ayin', 'limit', 'compel', 'contact', 'inspir', 'reader', 'peerreview', 'system', 'rest', 'guid', 'aquina', 'emot', 'length', 'controversi', 'cultur', 'us', 'cri', 'kaplan', 'furnitur', 'compliment', 'magazin', 'jewish', 'plan', 'such', 'rich', 'promot', 'month', 'cancer', 'michael', 'an', 'casket', 'live', 'splendor', 'nonobserv', 'studio', 'rude', 'permiss', 'indian', 'ford', 'cult', 'experi', 'favor', 'cite']
+
 	for key in keys:
-		t.insert(key)
+		key_processed = ""
+		for i in range(0,len(key)):
+			if ord(key[i])>=97 and ord(key[i])<=122:
+				key_processed+=key[i]
+			elif (ord(key[i])-ord('0'))>=0 and (ord(key[i])-ord('0'))<=9:
+				key_processed+=key[i]
+		t.insert(key_processed)
 
-	x = t.search("a")
-	print x
+	"""to save trie object as a pickle file. The trie contains """
+	#save_object(t,"/home/nikhil/searchengine/Article-Search-Engine/project/rankretrievalmodel/English/a.pkl")
 
-	t.autocomplete("a")
-	print suggestions
+	"""to load the trie object saved as pickle file"""
+	#trie = load_object("/home/nikhil/searchengine/Article-Search-Engine/project/rankretrievalmodel/English/a.pkl")
 
-	save_object(t,"/home/nikhil/searchengine/Article-Search-Engine/project/rankretrievalmodel/English/a.pkl")
 
-	trie = load_object("/home/nikhil/searchengine/Article-Search-Engine/project/rankretrievalmodel/English/a.pkl")
+	x = t.search("england")
+	print(x)
 
-	trie.autocomplete("a")
-	print suggestions	
+	t.autocomplete("engl")
+	print(suggestions)
